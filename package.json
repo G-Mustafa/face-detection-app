@@ -2,7 +2,7 @@
   "name": "face-recognition-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://g-mustafa.github.io/face-detection-app/",
+  "homepage": "https://g-mustafa.github.io/face-detection-app",
   "dependencies": {
     "clarifai": "^2.9.0",
     "gh-pages": "^2.0.1",
