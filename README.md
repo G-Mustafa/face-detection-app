@@ -1,3 +1,8 @@
+This app's backend is under construction but you can still access its front-end from the link above.just press sigin and in the detect box enter a url of the picture and the app will detect the face in the picture.This app uses Clarifai api.Enjoy :)
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
