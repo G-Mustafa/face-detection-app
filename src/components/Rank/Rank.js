@@ -5,10 +5,10 @@ class Rank extends Component {
         return (
             <div>
                 <div className='white f3'>
-                    {'Mustafa,your current rank is...'}
+                    {`${this.props.userData.name},your current rank is...`}
                 </div>
                 <div className='white f1'>
-                    {'#5'}
+                    {this.props.userData.entries}
                 </div>
             </div>
         );

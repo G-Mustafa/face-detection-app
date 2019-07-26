@@ -38,12 +38,29 @@ class App extends Component {
       imageUrl:'',
       box: {},
       route:'signin',
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+      }
     }
   }
 
   onInputChange = (event) => {
     this.setState({input: event.target.value});
+  }
+
+  loadUser = (user) => {
+    this.setState({user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      entries: user.entries,
+      joined: user.joined
+    }})
   }
 
   calculateFaceLocation = (data) => {
@@ -69,8 +86,24 @@ class App extends Component {
 
     app.models.predict(Clarifai.FACE_DETECT_MODEL,url)
     .then(response => {
+      if(response){
+        fetch('http://localhost:3000/image',{
+          method: 'put',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              id: this.state.user.id
+          })
+
+      })
+      .then( response => response.json())
+      .then( data => this.setState((state) => ({
+        user: Object.assign({},state.user,{entries: data})
+      })))
+
         this.displayFaceBox(this.calculateFaceLocation(response));
-    })
+    }})
     .catch( err => console.log(err));
   }
 
@@ -91,12 +124,12 @@ class App extends Component {
         {this.state.route === 'home'?
         <div>
           <Logo />
-          <Rank />
+          <Rank userData={this.state.user} />
           <ImageLinkForm onSubmit={this.onSubmit} onInputChange={this.onInputChange} />
           <FaceRecognition box={this.state.box} imgSrc={this.state.imageUrl} />
         </div>:(this.state.route === 'signin'? 
-                <SignIn onRouteChange={this.onRouteChange} /> : 
-                <Register onRouteChange={this.onRouteChange} />
+                <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} /> : 
+                <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
               )
         }
       </div>
